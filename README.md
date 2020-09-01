@@ -54,9 +54,9 @@ api/paattari
   {
     "departureInMinutes": 35,
     "departureInSeconds": 2093,
-    "description": "Katajanokka via Meilahti",
-    "sign": "Katajanokka",
-    "route": "4"
+    "description": "Töölön halli via Meilahti",
+    "sign": "Töölön halli",
+    "route": "4H"
   }
 ]
 ```
