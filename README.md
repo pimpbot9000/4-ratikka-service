@@ -14,7 +14,7 @@ docker run -it <host_port>:3000 4-tram-service
 ```
 This starts the service. There are no logs or anything.
 
-There are three resources at the service:
+There are three resources at the service, since there are three tram stops in Munkkiniemi.
 ```
 api/portti
 api/alepa
