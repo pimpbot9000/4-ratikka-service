@@ -60,9 +60,11 @@ api/paattari
   }
 ]
 ```
-### That's awesome! Where can I see it in action?!
+## That's awesome! Where can I see it in action?!
 
 Glad you asked! Project is currently hosted at [Heroku](https://tram-4-service.herokuapp.com/api/alepa). Patience my young padawan. It's asleep but she'll wake up.
 
-### Superb! What else you got up in your sleeve?
+## Superb! What else you got up in your sleeve?
 In the future there will be totally awesome Android-app using this service for all the fine people living in munkkiniemi to enjoy! Unfortunately they are all loaded so probably they all own iPhones...
+
+Sure, the official HSL app provides the same functionality, but it's slow and annoying to use. I'm a very busy guy.
