@@ -1,5 +1,5 @@
 # 4-ratikka-service
-Node Express service that gives departure times of tram 4 at Munkkiniemi (heading to Isoo Kirkko) at three different stops.
+Node Express service that gives departure times of tram 4 at Munkkiniemi (heading to Isoo Kirkko) at three different stops. Data is real-time, fetched from HSL api.
 
 You can find this as a Docker container in [DockerHub](https://hub.docker.com/r/pimpbot9000/4-tram-service).
 
