@@ -26,7 +26,7 @@ If you type in these magic words in terminal
 ```
 npm run dev
 ```
-the service starts in developer mode which restarts every time you bang CTRL+S on some of your files.
+the service starts in developer mode which restarts the server every time you bang CTRL+S when coding like crazy.
 
 There are three resources at the service, since there are three tram stops in Munkkiniemi.
 ```
