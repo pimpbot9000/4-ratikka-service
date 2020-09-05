@@ -79,6 +79,7 @@ api/paattari
 Glad you asked! Project is currently hosted at [Heroku](https://tram-4-service.herokuapp.com/api/alepa). Patience my young padawan. It's asleep but she'll wake up.
 
 ## Superb! What else you got up in your sleeve?
-In the future there will be totally awesome Android-app using this service for all the fine people living in munkkiniemi to enjoy! Unfortunately they are all loaded so probably they all own iPhones...
 
-Sure, the official HSL app provides the same functionality, but it's slow and annoying to use. I'm a very busy guy.
+It's be a damn shame to leave such a great service without demand! I also made a neat Android app that displays the information. [Here] https://github.com/pimpbot9000/tram4app/blob/master/README.md) one can find the github page of the project. Go and bask in awe.
+
+Sure the official HSL provides the same functionality but it's slow and somewhat annoying to use.
