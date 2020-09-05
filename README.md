@@ -80,6 +80,6 @@ Glad you asked! Project is currently hosted at [Heroku](https://tram-4-service.h
 
 ## Superb! What else you got up in your sleeve?
 
-It's be a damn shame to leave such a great service without demand! I also made a neat Android app that displays the information. [Here] https://github.com/pimpbot9000/tram4app/blob/master/README.md) one can find the github page of the project. Go and bask in awe.
+It'd be a damn shame to leave such a great service without demand! I also made a neat Android app that displays the information. [Here] https://github.com/pimpbot9000/tram4app/blob/master/README.md) one can find the github page of the project. Go and bask in awe.
 
-Sure the official HSL provides the same functionality but it's slow and somewhat annoying to use.
+Sure the official HSL provides the same functionality but it's slow and somewhat annoying to use if you're in a hurry. Nelosen spora app offers a lightweight remedy.
