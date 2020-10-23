@@ -9,7 +9,7 @@ Simply:
 ```
 docker run -it <host_port>:3000 4-tram-service
 ```
-This starts the service. There are no logs or anything.
+...starts the service. There are no logs or anything.
 
 ## But... I don't like Docker
 
