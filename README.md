@@ -3,12 +3,9 @@ Node Express service that gives departure times of tram 4 at Munkkiniemi (headin
 
 You can find this as a Docker container in [DockerHub](https://hub.docker.com/r/pimpbot9000/4-tram-service).
 
-## Usage of the container
+## Usage
 
-The container starts the service automatically, exposing port 3000 by default. Unfortunately there's no way to change it unless you re-dockerize the project. 
-The port used by the service is defined in the .env file.
-
-Running the container quite simple:
+Simply:
 ```
 docker run -it <host_port>:3000 4-tram-service
 ```
