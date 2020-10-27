@@ -11,7 +11,7 @@ docker run -it <host_port>:3000 4-tram-service
 ```
 ...starts the service. There are no logs or anything.
 
-## But... I don't like Docker
+## But... I'm an old fashioned guy and I don't get what's the deal with Docker
 
 In that case, 
 ```
