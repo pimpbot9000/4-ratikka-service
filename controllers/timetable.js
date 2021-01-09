@@ -1,22 +1,29 @@
 const timetableRouter = require('express').Router()
 const axios = require('axios')
 const config = require('../utils/config')
+const ExpressRedisCache = require('express-redis-cache')
+
+
+const cache = ExpressRedisCache({
+  expire: 10,
+  host: config.REDIS_HOST
+})
 
 timetableRouter.get('/', (request, response) => {
   return response.status(200).send("Vaihtoehtoina ovat: /portti, /alepa ja /paattari").end()
 })
 
-timetableRouter.get('/:id', async (request, response) => {
+timetableRouter.get('/:id', cache.route(), async (request, response) => {
 
   const id = request.params.id
 
   const stopId = config.STOPS[id]
 
-  if (!stopId) return response.status(404).send("404: pysäkkiä ei löydy! vain munccalaisille. köyhä.").end()
+  if (!stopId) return response.status(404).send("404: Pysäkkiä ei löydy. Vain munccalaisille. Köyhä.").end()
 
   try {
     let result = await axios({
-      url: config.API_URL,
+      url: config.HSL_API_URL,
       method: 'POST',
       headers: {
         'Content-Type': 'application/graphql'
@@ -75,5 +82,6 @@ const calculateSeconds = (time) => {
   const currentTime = new Date().getTime()
   return Math.round((time.realtimeDeparture + time.serviceDay) - currentTime / 1000)
 }
+
 module.exports = timetableRouter
 
