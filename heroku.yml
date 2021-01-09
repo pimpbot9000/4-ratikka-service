@@ -1,7 +1,7 @@
 setup:
   addons:
-  - plan: heroku-redis
-    as: redis
+    - plan: heroku-redis
+      as: redis
   config:
     REDIS_HOST: redis
 
