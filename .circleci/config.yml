@@ -5,6 +5,5 @@ workflows:
   deploy:
     jobs:
       - docker/publish:
-          image: pimpbot9000/docker-hy
+          image: pimpbot9000/4-tram-service
           tag: 'latest'
-          
