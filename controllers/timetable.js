@@ -2,7 +2,7 @@ const timetableRouter = require('express').Router()
 const axios = require('axios')
 const config = require('../utils/config')
 const redis = require('redis')
-const cache = require('express-redis-cache')({client: redis.createClient(process.env.REDIS_URL), expire: 10})
+const cache = require('express-redis-cache')({client: redis.createClient(process.env.REDIS_URL)})
 
 /*
 const cache = ExpressRedisCache({
@@ -15,7 +15,7 @@ timetableRouter.get('/', (request, response) => {
   return response.status(200).send("Vaihtoehtoina ovat: /portti, /alepa ja /paattari").end()
 })
 
-timetableRouter.get('/:id', cache.route(), async (request, response) => {
+timetableRouter.get('/:id', cache.route({expire: 10}), async (request, response) => {
 
   const id = request.params.id
 
