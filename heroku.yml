@@ -2,9 +2,10 @@ setup:
   addons:
   - plan: heroku-redis
     as: redis
+  config:
+    REDIS_HOST: redis
 
 build:
   docker:
     web: Dockerfile
-  config:
-    REDIS_HOST: redis
+  
