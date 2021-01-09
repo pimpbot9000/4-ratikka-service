@@ -6,7 +6,8 @@ const ExpressRedisCache = require('express-redis-cache')
 
 const cache = ExpressRedisCache({
   expire: 10,
-  host: config.REDIS_HOST
+  host: config.REDIS_HOST,
+  port: config.REDIS_PORT
 })
 
 timetableRouter.get('/', (request, response) => {

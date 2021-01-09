@@ -12,7 +12,7 @@ workflows:
             tag: 'latest'
       - heroku/deploy-via-git:
             requires:
-              - docker/publish  # only run deploy-via-git job if the build job has completed
+              - docker/publish
             filters:
               branches:
-                only: master # only run deploy-via-git job on master branch
+                only: master 

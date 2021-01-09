@@ -8,7 +8,7 @@ services:
       - 6379   
 
   service:
-    image: pimpbot9000/4-tram-service    
+    build: .   
     container_name: tram-service
     ports:
       - 4000:3000    
