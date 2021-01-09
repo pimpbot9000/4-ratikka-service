@@ -6,4 +6,5 @@ setup:
 build:
   docker:
     web: Dockerfile
-
+  config:
+    REDIS_HOST: redis
