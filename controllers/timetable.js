@@ -1,7 +1,8 @@
 const timetableRouter = require('express').Router()
 const axios = require('axios')
 const config = require('../utils/config')
-const ExpressRedisCache = require('express-redis-cache')
+const redis = require('redis')
+const ExpressRedisCache = require('express-redis-cache')({client: redis.createClient(process.env.REDIS_URL)})
 
 
 const cache = ExpressRedisCache({
