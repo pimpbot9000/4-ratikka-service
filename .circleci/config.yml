@@ -2,23 +2,17 @@ version: 2.1
 orbs:
   docker: circleci/docker@1.5.0
   heroku: circleci/heroku@1.2.4
-
-jobs:
-  docker:
-    - docker/publish:
-        image: pimpbot9000/4-tram-service
-        tag: 'latest'
-  heroku:
-       #- build
-    - heroku/deploy-via-git:
-        #requires:
-        #  - build # only run deploy-via-git job if the build job has completed
-        filters:
-          branches:
-            only: master # only run deploy-via-git job on master branch
+ 
 
 workflows:
   docker_and_heroku:
     jobs:
-      - docker
-      - heroku
+      - docker/publish:
+            image: pimpbot9000/4-tram-service
+            tag: 'latest'
+      - heroku/deploy-via-git:
+            #requires:
+            #  - build # only run deploy-via-git job if the build job has completed
+            filters:
+              branches:
+                only: master # only run deploy-via-git job on master branch
