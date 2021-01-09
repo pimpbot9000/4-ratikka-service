@@ -11,8 +11,8 @@ workflows:
             image: pimpbot9000/4-tram-service
             tag: 'latest'
       - heroku/deploy-via-git:
-            #requires:
-            #  - build # only run deploy-via-git job if the build job has completed
+            requires:
+              - docker/publish  # only run deploy-via-git job if the build job has completed
             filters:
               branches:
                 only: master # only run deploy-via-git job on master branch
