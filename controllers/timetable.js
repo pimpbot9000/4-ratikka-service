@@ -2,14 +2,14 @@ const timetableRouter = require('express').Router()
 const axios = require('axios')
 const config = require('../utils/config')
 const redis = require('redis')
-const ExpressRedisCache = require('express-redis-cache')({client: redis.createClient(process.env.REDIS_URL)})
+const cache = require('express-redis-cache')({client: redis.createClient(process.env.REDIS_URL)})
 
-
+/*
 const cache = ExpressRedisCache({
   expire: 10,
   host: config.REDIS_HOST,
   port: config.REDIS_PORT
-})
+})*/
 
 timetableRouter.get('/', (request, response) => {
   return response.status(200).send("Vaihtoehtoina ovat: /portti, /alepa ja /paattari").end()
