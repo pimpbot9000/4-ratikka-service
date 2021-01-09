@@ -1,0 +1,10 @@
+version: 2.1
+orbs:
+  docker: circleci/docker@1.0.0
+workflows:
+  deploy:
+    jobs:
+      - docker/publish:
+          image: pimpbot9000/docker-hy
+          tag: 'latest'
+          

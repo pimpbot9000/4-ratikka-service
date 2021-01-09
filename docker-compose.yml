@@ -5,13 +5,10 @@ services:
     container_name: cache
     image: redis
     expose:
-      - 6379
-    #ports:
-    #  - '6379:6379'
+      - 6379   
 
   service:
-    #image: pimpbot9000/4-tram-service
-    build: .
+    image: pimpbot9000/4-tram-service    
     container_name: tram-service
     ports:
       - 4000:3000    
