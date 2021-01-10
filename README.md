@@ -1,37 +1,35 @@
 # 4-ratikka-service
-Node Express service that gives departure times of tram 4 at Munkkiniemi (heading to Isoo Kirkko) at three different stops. Data is real-time, fetched from the HSL api (i.e data is not provided by magic fairies).
+Node Express service that gives departure times of tram 4 at Munkkiniemi (heading to Isoo Kirkko) at three different stops. Data is real-time, fetched from the HSL api (i.e data is not provided by magic fairies). Mostly made for DevOps with Docker course @University of Helsinki and for fun (and I hate waiting for the tram).
 
 You can find this as a Docker container in [DockerHub](https://hub.docker.com/r/pimpbot9000/4-tram-service).
+
+The container does not work standalone per se, since it's married with Redis cache with expiration of 10 seconds (which does not make any sense because the api returns the time to arrival in seconds so...) but the Redis cache was just for practising.
+
+## CI/CD
+
+There's a continuous delivery by CircelCI. See the ```.circleci/config.yml``` file. (Also required for the afore mentioned Docker course).
 
 ## Usage
 
 Simply:
 ```
-docker run -it <host_port>:3000 4-tram-service
+docker-compose build
 ```
-...starts the service. There are no logs or anything.
+and
+```
+docker-compose up
+```
+...starts the service with Redis container as cache.
 
-## But... I'm an old fashioned guy and I don't get what's the deal with Docker
-
-In that case, 
-```
-npm start 
-```
-in root of the project does the trick.
-
-If you type in these magic words in terminal
-```
-npm run dev
-```
-the service starts in developer mode which restarts the server every time you bang CTRL+S when coding like crazy.
-
+## The api
 There are three resources at the service, since there are three tram stops in Munkkiniemi.
 ```
 api/portti
 api/alepa
 api/paattari
 ```
-## Example query result:
+
+### Example query result:
 ```
 [
   {
@@ -71,7 +69,7 @@ api/paattari
   }
 ]
 ```
-## That's awesome! Where can I see it in action?!
+## That's "awesome"! Where can I see it in action?!
 
 Glad you asked! Project is currently hosted at [Heroku](https://tram-4-service.herokuapp.com/api/alepa). Patience my young padawan. It's asleep but she'll wake up.
 
