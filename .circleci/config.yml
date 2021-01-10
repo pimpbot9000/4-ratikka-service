@@ -2,14 +2,24 @@ version: 2.1
 orbs:
   docker: circleci/docker@1.5.0
   heroku: circleci/heroku@1.2.4
- 
+
+jobs:  
+  eslint:
+    docker:
+      - image: cimg/node:14.10.1
+        auth:
+          username: $DOCKER_LOGIN
+          password: $DOCKER_PASSWORD
+    steps:
+      - checkout
+      - run: echo "running my CI/CD"
+      - run: npm run lint
+  
 
 workflows:
-  docker_and_heroku:
+  lint_and_test:
     jobs:
-      - run:
-        name: Lint
-        command: npm run lint        
+      - eslint          
       - docker/publish:
             image: pimpbot9000/4-tram-service
             tag: 'latest'
@@ -18,4 +28,4 @@ workflows:
             #  - docker/publish
             filters:
               branches:
-                only: master 
+                only: master
