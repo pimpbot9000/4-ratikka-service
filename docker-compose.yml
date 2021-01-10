@@ -5,12 +5,12 @@ services:
     container_name: cache
     image: redis
     expose:
-      - 6379   
-
+      - 6379
+      
   service:
     build: .   
     container_name: tram-service
     ports:
       - 4000:3000    
     environment:
-      - REDIS_HOST=redis
+      - REDIS_URL=redis://cache

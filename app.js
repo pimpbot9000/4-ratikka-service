@@ -1,7 +1,7 @@
 
 const express = require('express')
 const timetableRouter = require('./controllers/timetable')
-const middleware = require('./utils/middleware')
+const middleware = require('./utils/middleware').default
 const app = express()
 
 app.use('/api', timetableRouter)
