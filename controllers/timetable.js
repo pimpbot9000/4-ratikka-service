@@ -4,7 +4,7 @@ const config = require('../utils/config')
 const { cache } = require('../utils/cache')
 
 timetableRouter.get('/', (request, response) => {
-  return response.status(200).send("Vaihtoehtoina ovat: /portti, /alepa ja /paattari").end()
+  return response.status(200).send('Vaihtoehtoina ovat: /portti, /alepa ja /paattari').end()
 })
 
 timetableRouter.get('/:id', cache.route({ expire: 10 }), async (request, response) => {
@@ -13,7 +13,7 @@ timetableRouter.get('/:id', cache.route({ expire: 10 }), async (request, respons
 
   const stopId = config.STOPS[id]
 
-  if (!stopId) return response.status(404).send("404: Pysäkkiä ei löydy. Vain munccalaisille. Köyhä.").end()
+  if (!stopId) return response.status(404).send('404: Pysäkkiä ei löydy. Vain munccalaisille. Köyhä.').end()
 
   try {
     let result = await axios({
@@ -68,7 +68,7 @@ timetableRouter.get('/:id', cache.route({ expire: 10 }), async (request, respons
 })
 
 const calculateMinutes = (time) => {
-  timeInMinutes = calculateSeconds(time) / 60
+  const timeInMinutes = calculateSeconds(time) / 60
   return Math.round(timeInMinutes)
 }
 

@@ -7,6 +7,9 @@ orbs:
 workflows:
   docker_and_heroku:
     jobs:
+      - run:
+        name: Lint
+        command: npm run lint        
       - docker/publish:
             image: pimpbot9000/4-tram-service
             tag: 'latest'
