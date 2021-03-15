@@ -4,7 +4,7 @@ const config = require('../utils/config')
 const { cache } = require('../utils/cache')
 
 timetableRouter.get('/', (request, response) => {
-  return response.status(200).send('Vaihtoehtoina ovat: /portti, /alepa ja /paattari').end()
+  return response.status(200).send('Vaihtoehtoina ovat: /portti, /alepa, /kadetti ja /paattari').end()
 })
 
 timetableRouter.get('/:id', cache.route({ expire: 5 }), async (request, response) => {

@@ -27,8 +27,8 @@ workflows:
             image: pimpbot9000/4-tram-service
             tag: 'latest'
       - heroku/deploy-via-git:
-            #requires:
-            #  - docker/publish
+            requires:
+              - docker/publish
             filters:
               branches:
                 only: master
