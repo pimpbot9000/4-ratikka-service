@@ -7,7 +7,7 @@ timetableRouter.get('/', (request, response) => {
   return response.status(200).send('Vaihtoehtoina ovat: /portti, /alepa ja /paattari').end()
 })
 
-timetableRouter.get('/:id', cache.route({ expire: 10 }), async (request, response) => {
+timetableRouter.get('/:id', cache.route({ expire: 5 }), async (request, response) => {
 
   const id = request.params.id
 
