@@ -10,64 +10,60 @@ timetableRouter.get('/', (request, response) => {
 timetableRouter.get('/:id', (request, response, next) => {
   response.express_redis_cache_name = `stop-${request.params.userid}`
   next()
-},
+}, cache.route({ expire: 5 }), async (request, response) => {
 
-  cache.route({ expire: 5 }),
+  const id = request.params.id
 
-  async (request, response) => {
+  const stopId = config.STOPS[id]
 
-    const id = request.params.id
+  if (!stopId) return response.status(404).send('404: Pysäkkiä ei löydy. Vain munccalaisille. Köyhä.').end()
 
-    const stopId = config.STOPS[id]
+  try {
+    let result = await axios({
+      url: config.HSL_API_URL,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/graphql'
+      },
+      data: `{      
+                  stop(id: "HSL:${stopId}") {          
+                      stoptimesWithoutPatterns {
+                        scheduledArrival
+                        realtimeArrival
+                        arrivalDelay
+                        scheduledDeparture
+                        realtimeDeparture
+                        departureDelay
+                        realtime
+                        realtimeState
+                        serviceDay
+                        headsign
+                        trip{
+                          tripHeadsign
+                          routeShortName
+                        }   
+                    }
+                  }          
+                }`
+    })
 
-    if (!stopId) return response.status(404).send('404: Pysäkkiä ei löydy. Vain munccalaisille. Köyhä.').end()
+    const arrivals = result.data.data.stop.stoptimesWithoutPatterns
 
-    try {
-      let result = await axios({
-        url: config.HSL_API_URL,
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/graphql'
-        },
-        data: `{      
-        stop(id: "HSL:${stopId}") {          
-            stoptimesWithoutPatterns {
-              scheduledArrival
-              realtimeArrival
-              arrivalDelay
-              scheduledDeparture
-              realtimeDeparture
-              departureDelay
-              realtime
-              realtimeState
-              serviceDay
-              headsign
-              trip{
-                tripHeadsign
-                routeShortName
-              }   
-          }
-        }          
-      }`
-      })
+    const arrivalTimes = getArrivalTimes(arrivals)
 
-      const arrivals = result.data.data.stop.stoptimesWithoutPatterns
+    response
+      .status(200)
+      .json(arrivalTimes)
 
-      const arrivalTimes = getArrivalTimes(arrivals)
-
-      response
-        .status(200)
-        .json(arrivalTimes)
-
-    } catch (e) {
-      response
-        .status(500)
-        .send('Server error').end()
-    }
-  })
+  } catch (e) {
+    response
+      .status(500)
+      .send('Server error').end()
+  }
+})
 
 const getArrivalTimes = (arrivals) => {
-  arrivalTimes = arrivals.map(time => {
+  const arrivalTimes = arrivals.map(time => {
     return {
       departureInMinutes: calculateMinutes(time),
       departureInSeconds: calculateSeconds(time),
