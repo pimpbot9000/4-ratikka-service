@@ -29,8 +29,8 @@ timetableRouter.get('/:id', (request, response, next) => {
     })
 
     const arrivals = result.data.data.stop.stoptimesWithoutPatterns
-
-    const arrivalTimes = getArrivalTimes(arrivals)
+    
+    const arrivalTimes = getArrivalTimes(arrivals, stopId)
 
     response
       .status(200)
@@ -43,19 +43,20 @@ timetableRouter.get('/:id', (request, response, next) => {
   }
 })
 
-const getArrivalTimes = (arrivals) => {
+const getArrivalTimes = (arrivals, id) => {
   const arrivalTimes = arrivals.map(item => {
     return {
       departureInMinutes: calculateMinutes(item),
       departureInSeconds: calculateSeconds(item),
       description: item.headsign,
       sign: item.trip.tripHeadsign,
-      route: item.trip.routeShortName
+      route: item.trip.routeShortName,
+      stopId: id,
+      tripId: item.trip.semanticHash.split(":")[1] 
     }
   }).filter(item => item.departureInSeconds >= 0)
 
   return arrivalTimes
-
 }
 
 const calculateMinutes = (time) => {
@@ -84,6 +85,7 @@ const getQueryData = (stopId) => `{
         trip{
           tripHeadsign
           routeShortName
+          semanticHash
         }   
     }
   }          

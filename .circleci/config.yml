@@ -18,17 +18,33 @@ jobs:
           command: npm install
       - run: npm run lint
   
+  test:
+    docker:
+      - image: cimg/node:14.10.1
+        auth:
+          username: $DOCKER_LOGIN
+          password: $DOCKER_PASSWORD
+    steps:
+      - checkout
+      - run: echo "running my CI/CD"
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run: npm run test
+  
 
 workflows:
   lint_and_test:
     jobs:
-      - eslint          
+      - eslint 
+      - test        
       - docker/publish:
             image: pimpbot9000/4-tram-service
             tag: 'latest'
       - heroku/deploy-via-git:
             requires:
               - docker/publish
+              - test
             filters:
               branches:
                 only: master
