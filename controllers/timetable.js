@@ -8,7 +8,7 @@ timetableRouter.get('/', (request, response) => {
 })
 
 timetableRouter.get('/:id', (request, response, next) => {
-  response.express_redis_cache_name = `stop-${request.params.userid}`
+  response.express_redis_cache_name = `stop-${request.params.id}`
   next()
 }, cache.route({ expire: 5 }), async (request, response) => {
 
@@ -25,26 +25,7 @@ timetableRouter.get('/:id', (request, response, next) => {
       headers: {
         'Content-Type': 'application/graphql'
       },
-      data: `{      
-                  stop(id: "HSL:${stopId}") {          
-                      stoptimesWithoutPatterns {
-                        scheduledArrival
-                        realtimeArrival
-                        arrivalDelay
-                        scheduledDeparture
-                        realtimeDeparture
-                        departureDelay
-                        realtime
-                        realtimeState
-                        serviceDay
-                        headsign
-                        trip{
-                          tripHeadsign
-                          routeShortName
-                        }   
-                    }
-                  }          
-                }`
+      data: getQueryData(stopId)
     })
 
     const arrivals = result.data.data.stop.stoptimesWithoutPatterns
@@ -63,21 +44,19 @@ timetableRouter.get('/:id', (request, response, next) => {
 })
 
 const getArrivalTimes = (arrivals) => {
-  const arrivalTimes = arrivals.map(time => {
+  const arrivalTimes = arrivals.map(item => {
     return {
-      departureInMinutes: calculateMinutes(time),
-      departureInSeconds: calculateSeconds(time),
-      description: time.headsign,
-      sign: time.trip.tripHeadsign,
-      route: time.trip.routeShortName
+      departureInMinutes: calculateMinutes(item),
+      departureInSeconds: calculateSeconds(item),
+      description: item.headsign,
+      sign: item.trip.tripHeadsign,
+      route: item.trip.routeShortName
     }
-  }).filter(t => t.departureInSeconds >= 0)
+  }).filter(item => item.departureInSeconds >= 0)
 
   return arrivalTimes
 
 }
-
-
 
 const calculateMinutes = (time) => {
   const timeInMinutes = calculateSeconds(time) / 60
@@ -88,6 +67,27 @@ const calculateSeconds = (time) => {
   const currentTime = new Date().getTime()
   return Math.round((time.realtimeDeparture + time.serviceDay) - currentTime / 1000)
 }
+
+const getQueryData = (stopId) => `{      
+  stop(id: "HSL:${stopId}") {          
+      stoptimesWithoutPatterns {
+        scheduledArrival
+        realtimeArrival
+        arrivalDelay
+        scheduledDeparture
+        realtimeDeparture
+        departureDelay
+        realtime
+        realtimeState
+        serviceDay
+        headsign
+        trip{
+          tripHeadsign
+          routeShortName
+        }   
+    }
+  }          
+}`
 
 module.exports = timetableRouter
 
