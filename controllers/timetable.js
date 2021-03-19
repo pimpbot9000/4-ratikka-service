@@ -52,7 +52,7 @@ const getArrivalTimes = (arrivals, id) => {
       sign: item.trip.tripHeadsign,
       route: item.trip.routeShortName,
       stopId: id,
-      tripId: item.trip.semanticHash.split(":")[1] 
+      tripId: item.trip.semanticHash.split(':')[1] 
     }
   }).filter(item => item.departureInSeconds >= 0)
 

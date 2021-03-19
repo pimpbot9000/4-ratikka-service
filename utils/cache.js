@@ -1,21 +1,19 @@
 const config = require('./config')
 
-if (config.ENV === 'test' || config.ENV === 'dev'){
+if (config.ENV === 'test' || config.ENV === 'dev') {
 
   const cache = {
     route: (_) => {
       return function (request, response, next) {
-      next()
+        next()
       }
     }
   }
+    
+  module.exports = { cache }
 
-  console.log("Created dummy cache (just a dummy middleware)")
-  module.exports = { cache } 
+} else {
 
-} else {  
-
-  
   const redis = require('redis')
   const cache = require('express-redis-cache')({ client: redis.createClient(config.REDIS_URL) })
 

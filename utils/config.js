@@ -9,7 +9,8 @@ const STOPS = {
   portti: 1301451,
   alepa: 1301453,
   kadetti: 1301455,
-  paattari: 1301456 
+  paattari: 1301456,
+  arabianranta: 1230407
 }
 
 const HSL_API_URL = 'https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql'
