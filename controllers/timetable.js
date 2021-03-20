@@ -1,7 +1,9 @@
 const timetableRouter = require('express').Router()
 const axios = require('axios')
 const config = require('../utils/config')
-const { cache } = require('../utils/cache')
+const { cache , getCacheAsync, setCacheAsync } = require('../utils/cache')
+const queryStop = require('./timetable-generic').queryStop
+
 
 timetableRouter.get('/', (request, response) => {
   return response.status(200).send('Vaihtoehtoina ovat: /portti, /alepa, /kadetti ja /paattari').end()
@@ -11,12 +13,13 @@ timetableRouter.get('/:id', (request, response, next) => {
   response.express_redis_cache_name = `stop-${request.params.id}`
   next()
 }, cache.route({ expire: 5 }), async (request, response) => {
+  
+  const id = request.params.id 
+  console.log('GET /', id)
 
-  const id = request.params.id
+  const stopId = await getNonHumanStopId(id)
 
-  const stopId = config.STOPS[id]
-
-  if (!stopId) return response.status(404).send('404: Pysäkkiä ei löydy. Vain munccalaisille. Köyhä.').end()
+  console.log('STOP', stopId)
 
   try {
     let result = await axios({
@@ -25,15 +28,13 @@ timetableRouter.get('/:id', (request, response, next) => {
       headers: {
         'Content-Type': 'application/graphql'
       },
-      data: getQueryData(stopId)
+      data: getQueryPayload(stopId)
     })
 
     const arrivals = result.data.data.stop.stoptimesWithoutPatterns
-    
+
     const arrivalTimes = getArrivalTimes(arrivals, stopId)
 
-    // response.set('Access-Control-Allow-Origin', '*')
-    
     response
       .status(200)
       .json(arrivalTimes)
@@ -45,6 +46,30 @@ timetableRouter.get('/:id', (request, response, next) => {
   }
 })
 
+const getNonHumanStopId = async (id) => {
+
+  let stopId = await getCacheAsync(id)
+
+  if(stopId) return stopId
+
+  stopId = config.STOPS[id]
+  
+  if (!stopId) {
+  
+    let stop = await queryStop(id)
+
+    console.log('Id', stopId)
+    if (!stop) {
+      return null
+    } else {
+      stopId = stop.id
+      await setCacheAsync(id, stopId, 'EX', config.EXPIRATION )
+    }    
+  }
+
+  return stopId
+}
+
 const getArrivalTimes = (arrivals, id) => {
   const arrivalTimes = arrivals.map(item => {
     return {
@@ -54,7 +79,7 @@ const getArrivalTimes = (arrivals, id) => {
       sign: item.trip.tripHeadsign,
       route: item.trip.routeShortName,
       stopId: id,
-      tripId: item.trip.semanticHash.split(':')[1] 
+      tripId: item.trip.semanticHash.split(':')[1]
     }
   }).filter(item => item.departureInSeconds >= 0)
 
@@ -71,8 +96,8 @@ const calculateSeconds = (time) => {
   return Math.round((time.realtimeDeparture + time.serviceDay) - currentTime / 1000)
 }
 
-const getQueryData = (stopId) => `{      
-  stop(id: "HSL:${stopId}") {          
+const getQueryPayload = (stopId) => `{      
+  stop(id: '${stopId}') {          
       stoptimesWithoutPatterns {
         scheduledArrival
         realtimeArrival
