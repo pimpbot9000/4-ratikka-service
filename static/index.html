@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Ratikka</title>
+  <title>Arabianranta</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>  
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -26,7 +26,7 @@
 
             let html = ""
 
-            data.forEach(item => {
+            data.filter(item => item.sign != "Arabia").forEach(item => {
                 
                 const row =                 
                 `                
@@ -54,14 +54,12 @@
         }
 
         const getData = () => {
-            console.log("get data")
+            console.log("update")
             axios.get("/api/arabianranta")
             .then(function (response) {        
-                
                 render(response.data)
             })
-            .catch(function (error) {
-                // handle error
+            .catch(function (error) {                
                 console.log(error);
             })
         }
