@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ratikka</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>  
+</head> 
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <span class="navbar-brand mb-0 h1">Ratikka</span>
+      </nav>
+      
+    <div class="container" id="container">    
+        
+    </div>
+    
+    <script>
+
+        const render = (data) => {
+
+            console.log(data)
+
+            let html = ""
+
+            data.forEach(item => {
+                
+                const row =                 
+                `                
+                </div>
+                <div class="row">
+                    <div class="col-sm-1 col-2" style="padding: 0 0px 0 10px">
+                        <img src="logo.png" width="100%"/>
+                    </div>
+                    <div class="col-sm-11 col-10">
+                        <h3> ${item.route} : ${item.sign} </h3>
+                    </div>
+                </div>
+                
+                
+                <h1> ${item.departureInMinutes} min </h1>                    
+                <hr>
+                
+                `                
+                
+                html += row // add row
+            });
+
+            
+            $("#container" ).html(html) 
+        }
+
+        const getData = () => {
+            console.log("get data")
+            axios.get("https://tram-4-service.herokuapp.com/api/arabianranta")
+            .then(function (response) {        
+                
+                render(response.data)
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
+        }
+
+        // Initial loading of data
+        $(document).ready(function(){ 
+
+            axios.get("https://tram-4-service.herokuapp.com/api/arabianranta", headers={'Access-Control-Allow-Origin': '*'})
+            .then(function (response) {        
+                
+                render(response.data)
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
+            
+            window.setInterval(getData, 5000)
+        })
+    </script>
+</body>
+</html>
