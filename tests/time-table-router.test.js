@@ -17,10 +17,8 @@ describe(' sddsd ', () => {
 
   test('Api returns a list longer than one', async () => {
 
-    const result = await api
-      .get('/api/portti')
-
-    expect(result.body.length > 1).toBe(true)
+    const result = await api.get('/api/portti')    
+    expect(result.body.length > 0).toBe(true)
 
     const first = result.body[0]
 

@@ -20,8 +20,10 @@ timetableRouter.get('/:id', (request, response, next) => {
   const stopId = await getNonHumanStopId(id)
 
   console.log('STOP', stopId)
+  console.log(getQueryPayload(stopId))
 
   try {
+
     let result = await axios({
       url: config.HSL_API_URL,
       method: 'POST',
@@ -29,17 +31,20 @@ timetableRouter.get('/:id', (request, response, next) => {
         'Content-Type': 'application/graphql'
       },
       data: getQueryPayload(stopId)
+
     })
 
+    console.log(result.data)
     const arrivals = result.data.data.stop.stoptimesWithoutPatterns
 
+    
     const arrivalTimes = getArrivalTimes(arrivals, stopId)
-
-    response
+    
+    return response
       .status(200)
       .json(arrivalTimes)
 
-  } catch (e) {
+  } catch (e) {    
     response
       .status(500)
       .send('Server error').end()
@@ -52,8 +57,8 @@ const getNonHumanStopId = async (id) => {
 
   if(stopId) return stopId
 
-  stopId = config.STOPS[id]
-  
+  stopId = config.STOPS[id] //get stop id:s from a map
+   
   if (!stopId) {
   
     let stop = await queryStop(id)
@@ -97,7 +102,7 @@ const calculateSeconds = (time) => {
 }
 
 const getQueryPayload = (stopId) => `{      
-  stop(id: '${stopId}') {          
+  stop(id: "${stopId}") {          
       stoptimesWithoutPatterns {
         scheduledArrival
         realtimeArrival
