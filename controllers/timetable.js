@@ -32,7 +32,7 @@ timetableRouter.get('/:id', (request, response, next) => {
     
     const arrivalTimes = getArrivalTimes(arrivals, stopId)
 
-    response.set('Access-Control-Allow-Origin', '*')
+    // response.set('Access-Control-Allow-Origin', '*')
     
     response
       .status(200)
