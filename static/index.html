@@ -55,7 +55,7 @@
 
         const getData = () => {
             console.log("get data")
-            axios.get("https://tram-4-service.herokuapp.com/api/arabianranta")
+            axios.get("/api/arabianranta")
             .then(function (response) {        
                 
                 render(response.data)
@@ -69,15 +69,7 @@
         // Initial loading of data
         $(document).ready(function(){ 
 
-            axios.get("https://tram-4-service.herokuapp.com/api/arabianranta", headers={'Access-Control-Allow-Origin': '*'})
-            .then(function (response) {        
-                
-                render(response.data)
-            })
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            })
+            getData()
             
             window.setInterval(getData, 5000)
         })
