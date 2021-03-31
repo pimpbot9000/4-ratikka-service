@@ -1,9 +1,24 @@
 # 4-ratikka-service
 Node Express service that gives departure times of tram 4 at Munkkiniemi (heading to Isoo Kirkko) at three different stops. Data is real-time, fetched from the HSL api (i.e data is not provided by magic fairies). Mostly made for DevOps with Docker course @University of Helsinki and for fun (and I hate waiting for the tram).
 
-You can find this as a Docker container in [DockerHub](https://hub.docker.com/r/pimpbot9000/4-tram-service).
+(You can find this as a Docker container in [DockerHub](https://hub.docker.com/r/pimpbot9000/4-tram-service) for no good reason)
 
-The container does not work standalone per se, since it's married with Redis cache with expiration of 10 seconds (which does not make any sense because the api returns the time to arrival in seconds so...) but the Redis cache was just for practising.
+## Tests and stuff
+
+Run in developer mode (works without redis, uses 'dummy cache'):
+```
+npm run dev
+```
+
+Run tests:
+```
+npm run test
+```
+
+Run lint:
+```
+npm run lint
+```
 
 ## CI/CD
 
