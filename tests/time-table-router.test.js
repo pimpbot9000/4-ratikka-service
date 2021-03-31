@@ -3,15 +3,16 @@ const app = require('../app')
 const api = supertest(app)
 
 const keys = [
-  'departureInMinutes',  
+  'departureInMinutes',
   'departureInSeconds',
-  // ...
+  // ... lazyness struck!
   'stopId',
   'tripId'
 ]
 
 describe('Test timetable endpoint', () => {
-  test('Tests work!', () => {
+
+  test('Tests work! Yay!', () => {
     expect(42).toBe(42)
   })
 
@@ -22,34 +23,33 @@ describe('Test timetable endpoint', () => {
       .expect('Content-Type', /application\/json/)
   })
 
-  test('Api returns a list longer than one', async () => {
+  test('Api returns a list longer than one for predefined stop and contains correct set of keys', async () => {
 
     const result = await api.get('/api/portti')
     expect(result.body.length > 0).toBe(true)
 
     const first = result.body[0]
-    keys.forEach( key => expect(key in first).toBe(true))     
-    
+    keys.forEach(key => expect(key in first).toBe(true))
+
 
   })
 
-  test('Api returns OK with ANY stop with human readable ID of type Hxxx', async () => {
+  test('Api returns OK with by human readable ID of type Hxxx', async () => {
     await api
       .get('/api/H0122')
       .expect(200)
       .expect('Content-Type', /application\/json/)
   })
 
-  test('Api returns returns a list longer than one with ANY stop with id Hxxx', async () => {
+  test('Api returns returns a list by human readable ID and contains correct set of keys', async () => {
 
     const result = await api.get('/api/H0122')
     expect(result.body.length > 0).toBe(true)
 
     const first = result.body[0]
-    keys.forEach( key => expect(key in first).toBe(true))
+    keys.forEach(key => expect(key in first).toBe(true))
+
   })
-
-
 
 })
 
