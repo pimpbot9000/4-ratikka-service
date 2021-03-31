@@ -28,45 +28,58 @@ api/portti
 api/alepa
 api/paattari
 ```
-
+Additionally, one can query timetable by human readable ID e.g.
+```
+api/H0122
+```
 ### Example query result:
 ```
 [
-  {
-    "departureInMinutes": 5,
-    "departureInSeconds": 293,
-    "description": "Katajanokka via Meilahti",
-    "sign": "Katajanokka",
-    "route": "4"
-  },
-  {
-    "departureInMinutes": 12,
-    "departureInSeconds": 713,
-    "description": "Katajanokka via Meilahti",
-    "sign": "Katajanokka",
-    "route": "4"
-  },
-  {
-    "departureInMinutes": 20,
-    "departureInSeconds": 1193,
-    "description": "Katajanokka via Meilahti",
-    "sign": "Katajanokka",
-    "route": "4"
-  },
-  {
-    "departureInMinutes": 27,
-    "departureInSeconds": 1613,
-    "description": "Katajanokka via Meilahti",
-    "sign": "Katajanokka",
-    "route": "4"
-  },
-  {
-    "departureInMinutes": 35,
-    "departureInSeconds": 2093,
-    "description": "Töölön halli via Meilahti",
-    "sign": "Töölön halli",
-    "route": "4H"
-  }
+{
+  "departureInMinutes": 2,
+  "departureInSeconds": 129,
+  "description": "Katajanokka via Meilahti",
+  "sign": "Katajanokka",
+  "route": "4",
+  "stopId": "HSL:1301451",
+  "tripId": "6rqung"
+},
+{
+  "departureInMinutes": 8,
+  "departureInSeconds": 450,
+  "description": "Katajanokka via Meilahti",
+  "sign": "Katajanokka",
+  "route": "4",
+  "stopId": "HSL:1301451",
+  "tripId": "r3LKyw"
+},
+{
+  "departureInMinutes": 14,
+  "departureInSeconds": 810,
+  "description": "Katajanokka via Meilahti",
+  "sign": "Katajanokka",
+  "route": "4",
+  "stopId": "HSL:1301451",
+  "tripId": "IFzBJg"
+},
+{
+  "departureInMinutes": 20,
+  "departureInSeconds": 1170,
+  "description": "Katajanokka via Meilahti",
+  "sign": "Katajanokka",
+  "route": "4",
+  "stopId": "HSL:1301451",
+  "tripId": "W3fE1g"
+},
+{
+  "departureInMinutes": 26,
+  "departureInSeconds": 1530,
+  "description": "Katajanokka via Meilahti",
+  "sign": "Katajanokka",
+  "route": "4",
+  "stopId": "HSL:1301451",
+  "tripId": "WuLA6A"
+}
 ]
 ```
 ## That's "awesome"! Where can I see it in action?!
