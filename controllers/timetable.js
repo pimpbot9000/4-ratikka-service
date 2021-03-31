@@ -1,8 +1,8 @@
 const timetableRouter = require('express').Router()
 const axios = require('axios')
 const config = require('../utils/config')
-const { cache , getCacheAsync, setCacheAsync } = require('../utils/cache')
-const queryStop = require('./timetable-generic').queryStop
+const { cache, getCacheAsync, setCacheAsync } = require('../utils/cache')
+const queryStop = require('./stop').queryStop
 
 
 timetableRouter.get('/', (request, response) => {
@@ -13,14 +13,10 @@ timetableRouter.get('/:id', (request, response, next) => {
   response.express_redis_cache_name = `stop-${request.params.id}`
   next()
 }, cache.route({ expire: 5 }), async (request, response) => {
-  
-  const id = request.params.id 
-  console.log('GET /', id)
+
+  const id = request.params.id
 
   const stopId = await getNonHumanStopId(id)
-
-  console.log('STOP', stopId)
-  console.log(getQueryPayload(stopId))
 
   try {
 
@@ -33,44 +29,41 @@ timetableRouter.get('/:id', (request, response, next) => {
       data: getQueryPayload(stopId)
 
     })
-
-    console.log(result.data)
+    
     const arrivals = result.data.data.stop.stoptimesWithoutPatterns
 
-    
+
     const arrivalTimes = getArrivalTimes(arrivals, stopId)
-    
+
     return response
       .status(200)
       .json(arrivalTimes)
 
-  } catch (e) {    
+  } catch (e) {
     response
-      .status(500)
-      .send('Server error').end()
+      .status(404)
+      .send('Resource not found').end()
   }
 })
 
+// A bit confusing function to get either predefined stop 
+// or first query for stop id by human readable id
 const getNonHumanStopId = async (id) => {
 
   let stopId = await getCacheAsync(id)
 
-  if(stopId) return stopId
+  if (stopId) return stopId // found in cache
 
   stopId = config.STOPS[id] //get stop id:s from a map
-   
-  if (!stopId) {
-  
-    let stop = await queryStop(id)
 
-    console.log('Id', stopId)
-    if (!stop) {
-      return null
-    } else {
-      stopId = stop.id
-      await setCacheAsync(id, stopId, 'EX', config.EXPIRATION )
-    }    
-  }
+  if (stopId) return stopId // found in map
+
+  let stop = await queryStop(id) // query for a stop  
+
+  if (!stop) return null // stop does not exist
+  
+  stopId = stop.id
+  await setCacheAsync(id, stopId, 'EX', config.EXPIRATION)
 
   return stopId
 }

@@ -53,8 +53,7 @@
             $("#container" ).html(html) 
         }
 
-        const getData = () => {
-            console.log("update")
+        const getData = () => {            
             axios.get("/api/arabianranta")
             .then(function (response) {        
                 render(response.data)

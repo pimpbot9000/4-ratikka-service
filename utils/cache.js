@@ -1,6 +1,7 @@
 const config = require('./config')
 
 
+// Create dummy functions for cache
 if (config.ENV === 'test' || config.ENV === 'dev') {
 
   const cache = {
@@ -11,9 +12,9 @@ if (config.ENV === 'test' || config.ENV === 'dev') {
     }
   }
 
-  // dummy functions for local testing (dev config)
   const getCacheAsync = () => null
   const setCacheAsync = (empty) => { }  // eslint-disable-line no-unused-vars
+
   module.exports = {
     cache,
     getCacheAsync,
@@ -22,20 +23,18 @@ if (config.ENV === 'test' || config.ENV === 'dev') {
 
 } else {
 
-  console.log('Configure cache')
-  const redis = require('redis')
-  //const cache = require('express-redis-cache')({ client: redis.createClient(config.REDIS_URL) })
 
+  const redis = require('redis')
   const { promisify } = require('util')
+
   const redisClient = redis.createClient(config.REDIS_URL)
   const cache = require('express-redis-cache')({ client: redisClient })
-  console.log('Cache configured')
+
 
   module.exports = {
     cache,
     getCacheAsync: promisify(redisClient.get).bind(redisClient),
     setCacheAsync: promisify(redisClient.set).bind(redisClient),
-
   }
 
 }

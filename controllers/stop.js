@@ -1,9 +1,9 @@
-const timetableRouterGeneric = require('express').Router()
+const stopRouter = require('express').Router()
 const axios = require('axios')
 const config = require('../utils/config')
 const { cache } = require('../utils/cache')
 
-timetableRouterGeneric.get('/stops/:id', (request, response, next) => {
+stopRouter.get('/stops/:id', (request, response, next) => {
   response.express_redis_cache_name = `stop-${request.params.id}`
   next()
 }, cache.route({ expire: 5 }), async (request, response) => {
@@ -21,9 +21,6 @@ timetableRouterGeneric.get('/stops/:id', (request, response, next) => {
       .status(404)
       .send('Not found').end()
   }
-
-
-
 })
 
 const queryStop = async (id) => {
@@ -36,7 +33,6 @@ const queryStop = async (id) => {
       },
       data: getQueryDataForStop(id)
     })
-
 
     if (result.data.data.stops.length == 0) {
       return null
@@ -65,4 +61,4 @@ const getQueryDataForStop = (stopId) => `{
   }`
 
 
-module.exports = { timetableRouterGeneric, queryStop }
+module.exports = { stopRouter, queryStop }

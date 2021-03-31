@@ -9,7 +9,7 @@ const EXPIRATION = 60000
 const STOPS = {
   portti: 'HSL:1301451',
   alepa: 'HSL:1301453',
-  kadetti: 'HSL1301455',
+  kadetti: 'HSL:1301455',
   paattari: 'HSL:1301456',
   arabianranta: 'HSL:1230407'
 }
