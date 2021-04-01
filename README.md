@@ -37,11 +37,12 @@ docker-compose up
 ...starts the service with Redis container as cache.
 
 ## The api
-There are three resources at the service, since there are three tram stops in Munkkiniemi.
+There are four resources at the service, since there are three tram stops in Munkkiniemi.
 ```
 api/portti
 api/alepa
 api/paattari
+api/kadetti
 ```
 Additionally, one can query timetable by human readable ID e.g.
 ```
