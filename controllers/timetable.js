@@ -29,7 +29,7 @@ timetableRouter.get('/:id', (request, response, next) => {
       data: getQueryPayload(stopId)
 
     })
-    
+
     const arrivals = result.data.data.stop.stoptimesWithoutPatterns
 
 
@@ -46,22 +46,21 @@ timetableRouter.get('/:id', (request, response, next) => {
   }
 })
 
-// A bit confusing function to get either predefined stop 
-// or first query for stop id by human readable id
+/**
+* A bit ugly function to get either predefined stop ID from a map
+* by name or query for stop ID by human readable stop ID.
+*/
 const getNonHumanStopId = async (id) => {
 
   let stopId = await getCacheAsync(id)
-
   if (stopId) return stopId // found in cache
 
   stopId = config.STOPS[id] //get stop id:s from a map
-
   if (stopId) return stopId // found in map
 
   let stop = await queryStop(id) // query for a stop  
-
   if (!stop) return null // stop does not exist
-  
+
   stopId = stop.id
   await setCacheAsync(id, stopId, 'EX', config.EXPIRATION)
 
