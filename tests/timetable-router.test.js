@@ -37,8 +37,7 @@ describe('Test timetable endpoint', () => {
 
     const first = result.body[0]
     keys.forEach(key => expect(key in first).toBe(true))
-
-
+    
   })
 
   test('Api returns 200 with right content type by human readable ID of type Hxxx', async () => {

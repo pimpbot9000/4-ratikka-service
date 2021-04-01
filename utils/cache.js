@@ -1,6 +1,5 @@
 const config = require('./config')
 
-
 // Create dummy functions for cache
 if (config.ENV === 'test' || config.ENV === 'dev') {
 
@@ -22,7 +21,6 @@ if (config.ENV === 'test' || config.ENV === 'dev') {
   }
 
 } else {
-
 
   const redis = require('redis')
   const { promisify } = require('util')

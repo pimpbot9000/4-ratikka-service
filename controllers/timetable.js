@@ -12,7 +12,7 @@ timetableRouter.get('/', (request, response) => {
 timetableRouter.get('/:id', (request, response, next) => {
   response.express_redis_cache_name = `stop-${request.params.id}`
   next()
-}, cache.route({ expire: 5 }), async (request, response) => {
+}, cache.route({ expire: config.ENDPOINT_CACHE_EXP }), async (request, response) => {
 
   const id = request.params.id
 
@@ -62,7 +62,7 @@ const getNonHumanStopId = async (id) => {
   if (!stop) return null // stop does not exist
 
   stopId = stop.id
-  await setCacheAsync(id, stopId, 'EX', config.EXPIRATION)
+  await setCacheAsync(id, stopId, 'EX', config.STOP_CACHE_EXP)
 
   return stopId
 }
