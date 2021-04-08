@@ -1,3 +1,7 @@
+# The app!
+
+Nelosen spora the app, available at google play : https://play.google.com/store/apps/details?id=conman.app.tram4
+
 # 4-ratikka-service
 Node Express service that gives departure times of tram 4 at Munkkiniemi (heading to Isoo Kirkko) at three different stops. Data is real-time, fetched from the HSL api (i.e data is not provided by magic fairies). Mostly made for DevOps with Docker course @University of Helsinki and for fun (and I hate waiting for the tram).
 
